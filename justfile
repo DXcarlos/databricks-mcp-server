@@ -15,10 +15,19 @@ run:
 # Compile Python sources as a fast syntax sanity check.
 lint:
   poetry run python -m compileall databricks_mcp_server scripts tests
+  poetry run ruff check .
 
 # Run unit tests.
 test:
   poetry run pytest -q
+
+# Format code with Ruff.
+format:
+  poetry run ruff format .
+
+# Run tests with coverage report.
+coverage:
+  poetry run pytest --cov=databricks_mcp_server --cov-report=term-missing -q
 
 # List available SQL warehouses for a Databricks profile.
 list-warehouses profile="DEFAULT":

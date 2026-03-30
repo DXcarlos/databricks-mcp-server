@@ -1,4 +1,5 @@
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 from databricks_mcp_server.services import catalogs, schemas, sql, tables
 

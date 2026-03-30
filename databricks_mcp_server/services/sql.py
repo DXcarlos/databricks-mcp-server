@@ -2,7 +2,6 @@ import re
 import time
 
 from databricks_mcp_server.services.client import get_workspace_client
-from databricks.sdk.service import sql
 
 _ALLOWED_PREFIXES = ("select", "show", "describe")
 _FORBIDDEN_KEYWORDS = ("drop", "delete", "update", "insert", "alter", "truncate", "create", "merge")
@@ -74,7 +73,11 @@ def execute_query(query: str, warehouse_id: str, profile: str | None = None, tim
     final_response = _wait_for_statement_completion(w, initial.statement_id, initial, timeout_seconds=timeout_seconds)
     state = None
     if final_response.status and final_response.status.state is not None:
-        state = final_response.status.state.value if hasattr(final_response.status.state, "value") else str(final_response.status.state)
+        state = (
+            final_response.status.state.value
+            if hasattr(final_response.status.state, "value")
+            else str(final_response.status.state)
+        )
     if state != "SUCCEEDED":
         error_message = None
         if final_response.status and final_response.status.error:
@@ -83,7 +86,7 @@ def execute_query(query: str, warehouse_id: str, profile: str | None = None, tim
 
     manifest = final_response.manifest
     columns = []
-    for column in (manifest.schema.columns if manifest and manifest.schema and manifest.schema.columns else []):
+    for column in manifest.schema.columns if manifest and manifest.schema and manifest.schema.columns else []:
         columns.append(column.name)
 
     rows = _extract_rows(w, initial.statement_id, final_response)

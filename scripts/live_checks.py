@@ -197,9 +197,7 @@ def run_smoke(profile: str, warehouse_id: str | None) -> None:
         print(json.dumps(report, indent=2))
         sys.exit(1)
 
-    print(
-        json.dumps(report, indent=2)
-    )
+    print(json.dumps(report, indent=2))
 
 
 def main() -> None:

@@ -1,3 +1,4 @@
+from databricks_mcp_server.handlers import commands
 from databricks_mcp_server.handlers.commands import run_command
 
 
@@ -18,3 +19,19 @@ def test_execute_query_blocks_non_read_only_sql():
     )
     assert result["status"] == "error"
     assert "Only read queries are allowed" in result["message"]
+
+
+def test_list_catalogs_success_envelope(monkeypatch):
+    monkeypatch.setattr(commands.catalogs, "list_catalogs", lambda profile=None: {"catalogs": [{"name": "main"}]})
+    result = run_command("list_catalogs", {"profile": "DEFAULT"})
+    assert result == {"status": "success", "data": {"catalogs": [{"name": "main"}]}}
+
+
+def test_run_command_returns_error_when_handler_raises(monkeypatch):
+    def _boom(profile=None):
+        raise RuntimeError("backend unavailable")
+
+    monkeypatch.setattr(commands.catalogs, "list_catalogs", _boom)
+    result = run_command("list_catalogs", {"profile": "DEFAULT"})
+    assert result["status"] == "error"
+    assert "backend unavailable" in result["message"]
