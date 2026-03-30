@@ -21,6 +21,20 @@ databricks auth login --host https://<your-workspace-host> --profile my-profile
 
 ## 📦 Install
 
+We recommend using [Poetry](https://python-poetry.org/) and [Just](https://just.systems/):
+
+```bash
+just install
+```
+
+Alternatively, you can install with Poetry directly:
+
+```bash
+poetry install
+```
+
+Or using `pip` in a virtual environment:
+
 ```bash
 python -m venv .venv
 source .venv/bin/activate
@@ -92,11 +106,13 @@ In VS Code, create `.vscode/mcp.json` (or use your global MCP settings) with:
     "databricks-mcp": {
       "command": "poetry",
       "args": ["run", "databricks-mcp-server"],
-      "cwd": "/Users/carloslopez/PycharmProjects/databricks-mcp-server"
+      "cwd": "/path/to/your/databricks-mcp-server"
     }
   }
 }
 ```
+
+**Note:** Ensure the `cwd` points to the absolute path of the project directory on your machine.
 
 For JetBrains IDEs with Copilot MCP support, use equivalent `mcp.json` server settings (`stdio` + `poetry run databricks-mcp-server`).
 
