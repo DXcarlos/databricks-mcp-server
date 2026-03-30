@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "databricks-mcp-server"
+version = "0.1.0"
+description = "MCP server for Databricks using Databricks CLI authentication"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "Carlos Lopez" }
+]
+dependencies = [
+  "mcp>=1.2.0",
+  "databricks-sdk>=0.44.0"
+]
+
+[project.scripts]
+databricks-mcp-server = "databricks_mcp_server.server:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["databricks_mcp_server*"]
