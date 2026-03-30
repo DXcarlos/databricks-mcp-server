@@ -23,3 +23,25 @@ databricks-mcp-server = "databricks_mcp_server.server:main"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["databricks_mcp_server*"]
+
+[tool.poetry]
+name = "databricks-mcp-server"
+version = "0.1.0"
+description = "MCP server for Databricks using Databricks CLI authentication"
+authors = ["Carlos Lopez"]
+readme = "README.md"
+packages = [{ include = "databricks_mcp_server" }]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+mcp = ">=1.2.0"
+databricks-sdk = ">=0.44.0"
+
+[tool.poetry.scripts]
+databricks-mcp-server = "databricks_mcp_server.server:main"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=8.0.0"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
